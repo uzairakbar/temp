@@ -131,5 +131,6 @@ if __name__ == '__main__':
     all_solutions = run_experiment(args)
     print("\n".join(all_solutions))
 
-    with open('synthetic_results.pt', 'w') as file:
-        file.write('whatever')
+    # with open('synthetic_results.pt', 'w') as file:
+    #     file.write(all_solutions)
+    torch.save(all_solutions, 'synthetic_results.pt')

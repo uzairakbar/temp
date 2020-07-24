@@ -135,7 +135,7 @@ def plot_experiment(all_solutions, category, fname):
     plt.figure(figsize=(7, 2))
     plot_bars(results, category, "causal")
     plot_bars(results, category, "noncausal")
-    plt.tight_layout(0, 0, 0.5)
+    #plt.tight_layout(0, 0, 0.5)
 
     if fname is None:
         plt.show()

@@ -127,10 +127,15 @@ if __name__ == '__main__':
     parser.add_argument('--setup_hetero', type=int, default=0)
     parser.add_argument('--setup_scramble', type=int, default=0)
     args = dict(vars(parser.parse_args()))
-    
-    all_solutions = run_experiment(args)
+
+    all_solutions = []
+    for i in [0, 1]:
+        for j in [0, 1]:
+            for k in [0, 1]:
+                args['setup_hidden'] = i
+                args['setup_hetero'] = j
+                args['setup_scramble'] = k
+                all_solutions += run_experiment(args)
     print("\n".join(all_solutions))
 
-    # with open('synthetic_results.pt', 'w') as file:
-    #     file.write(all_solutions)
     torch.save(all_solutions, 'synthetic_results.pt')

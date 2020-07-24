@@ -112,7 +112,7 @@ def plot_bars(results, category, which, sep=1.1):
 
 def plot_experiment(all_solutions, category, fname):
     plt.rcParams["font.family"] = "serif"
-    plt.rc('text', usetex=True)
+    plt.rc('text', usetex=False)
     plt.rc('font', size=10)
 
     results = {}
@@ -135,7 +135,7 @@ def plot_experiment(all_solutions, category, fname):
     plt.figure(figsize=(7, 2))
     plot_bars(results, category, "causal")
     plot_bars(results, category, "noncausal")
-    #plt.tight_layout(0, 0, 0.5)
+    plt.tight_layout(0, 0, 0.5)
 
     if fname is None:
         plt.show()

@@ -117,7 +117,7 @@ if __name__ == '__main__':
     parser.add_argument('--skip_reps', type=int, default=0)
     parser.add_argument('--seed', type=int, default=0)  # Negative is random
     parser.add_argument('--print_vectors', type=int, default=1)
-    parser.add_argument('--n_iterations', type=int, default=1000)
+    parser.add_argument('--n_iterations', type=int, default=10000)
     parser.add_argument('--lr', type=float, default=1e-3)
     parser.add_argument('--verbose', type=int, default=0)
     parser.add_argument('--methods', type=str, default="EERM,ERM,ICP,IRM")
@@ -131,11 +131,9 @@ if __name__ == '__main__':
     all_solutions = []
     for i in [0, 1]:
         for j in [0, 1]:
-            for k in [0, 1]:
-                args['setup_hidden'] = i
-                args['setup_hetero'] = j
-                args['setup_scramble'] = k
-                all_solutions += run_experiment(args)
+            args['setup_hidden'] = i
+            args['setup_hetero'] = j
+            all_solutions += run_experiment(args)
     print("\n".join(all_solutions))
 
     torch.save(all_solutions, 'synthetic_results.pt')

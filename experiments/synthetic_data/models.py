@@ -172,3 +172,19 @@ class EmpiricalRiskMinimizer(object):
 
     def solution(self):
         return self.w
+
+class EnsembleERM(object):
+    def __init__(self, environments, args):
+        
+        x_all = torch.cat([x for (x, y) in environments]).numpy()
+        y_all = torch.cat([y for (x, y) in environments]).numpy()
+        w = LinearRegression(fit_intercept=False).fit(x_all, y_all).coef_ * 0.0
+
+        for (x_e, y_e) in environments:
+            w_e = LinearRegression(fit_intercept=False).fit(x_e.numpy(), y_e.numpy()).coef_
+            w += w_e
+        w /= len(environments)
+        self.w = torch.Tensor(w)
+
+    def solution(self):
+        return self.w

@@ -57,6 +57,7 @@ def run_experiment(args):
         raise NotImplementedError
 
     all_methods = {
+        "EERM": EnsembleERM,
         "ERM": EmpiricalRiskMinimizer,
         "ICP": InvariantCausalPrediction,
         "IRM": InvariantRiskMinimization
@@ -119,13 +120,13 @@ if __name__ == '__main__':
     parser.add_argument('--n_iterations', type=int, default=100000)
     parser.add_argument('--lr', type=float, default=1e-3)
     parser.add_argument('--verbose', type=int, default=0)
-    parser.add_argument('--methods', type=str, default="ERM,ICP,IRM")
+    parser.add_argument('--methods', type=str, default="EERM,ERM,ICP,IRM")
     parser.add_argument('--alpha', type=float, default=0.05)
     parser.add_argument('--setup_sem', type=str, default="chain")
     parser.add_argument('--setup_hidden', type=int, default=0)
     parser.add_argument('--setup_hetero', type=int, default=0)
     parser.add_argument('--setup_scramble', type=int, default=0)
     args = dict(vars(parser.parse_args()))
-
+    print(args)
     all_solutions = run_experiment(args)
     print("\n".join(all_solutions))

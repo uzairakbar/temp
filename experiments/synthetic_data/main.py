@@ -127,6 +127,9 @@ if __name__ == '__main__':
     parser.add_argument('--setup_hetero', type=int, default=0)
     parser.add_argument('--setup_scramble', type=int, default=0)
     args = dict(vars(parser.parse_args()))
-    print(args)
+    
     all_solutions = run_experiment(args)
     print("\n".join(all_solutions))
+
+    with open('synthetic_results.pt', 'w') as file:
+        file.write('whatever')

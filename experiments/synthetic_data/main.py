@@ -117,7 +117,7 @@ if __name__ == '__main__':
     parser.add_argument('--skip_reps', type=int, default=0)
     parser.add_argument('--seed', type=int, default=0)  # Negative is random
     parser.add_argument('--print_vectors', type=int, default=1)
-    parser.add_argument('--n_iterations', type=int, default=100000)
+    parser.add_argument('--n_iterations', type=int, default=1000)
     parser.add_argument('--lr', type=float, default=1e-3)
     parser.add_argument('--verbose', type=int, default=0)
     parser.add_argument('--methods', type=str, default="EERM,ERM,ICP,IRM")

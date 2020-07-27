@@ -57,8 +57,7 @@ class InvariantRiskMinimization(object):
         device = torch.device("cuda" if use_cuda else "cpu")
 
         self.phi = torch.nn.Parameter(torch.eye(dim_x, dim_x)).to(device)
-        self.w = torch.ones(dim_x, 1).to(device)
-        self.w.requires_grad = True
+        self.w = torch.ones(dim_x, 1, requires_grad = True).to(device)
 
         opt = torch.optim.Adam([self.phi], lr=args["lr"])
         loss = torch.nn.MSELoss()

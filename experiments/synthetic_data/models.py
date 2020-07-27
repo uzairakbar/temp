@@ -49,11 +49,15 @@ class InvariantRiskMinimization(object):
                 best_phi = self.phi.clone()
         self.phi = best_phi
 
+
     def train(self, environments, args, reg=0):
         dim_x = environments[0][0].size(1)
 
-        self.phi = torch.nn.Parameter(torch.eye(dim_x, dim_x))
-        self.w = torch.ones(dim_x, 1)
+        use_cuda = torch.cuda.is_available()
+        device = torch.device("cuda" if use_cuda else "cpu")
+
+        self.phi = torch.nn.Parameter(torch.eye(dim_x, dim_x)).to(device)
+        self.w = torch.ones(dim_x, 1).to(device)
         self.w.requires_grad = True
 
         opt = torch.optim.Adam([self.phi], lr=args["lr"])
@@ -63,6 +67,7 @@ class InvariantRiskMinimization(object):
             penalty = 0
             error = 0
             for x_e, y_e in environments:
+                x_e, y_e = x_e.to(device), y_e.to(device)
                 error_e = loss(x_e @ self.phi @ self.w, y_e)
                 penalty += grad(error_e, self.w,
                                 create_graph=True)[0].pow(2).mean()
@@ -81,7 +86,7 @@ class InvariantRiskMinimization(object):
                                                                       w_str))
 
     def solution(self):
-        return self.phi @ self.w
+        return (self.phi @ self.w).to('cpu')
 
 
 class InvariantCausalPrediction(object):

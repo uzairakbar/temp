@@ -135,6 +135,7 @@ if __name__ == '__main__':
                 args['setup_hidden'] = i
                 args['setup_hetero'] = j
                 args['setup_scramble'] = j
+                print("Hidden ", i, ", Hetero ", j, ", Scramble ", k)
                 all_solutions += run_experiment(args)
     print("\n".join(all_solutions))
 

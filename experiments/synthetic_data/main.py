@@ -131,9 +131,11 @@ if __name__ == '__main__':
     all_solutions = []
     for i in [0, 1]:
         for j in [0, 1]:
-            args['setup_hidden'] = i
-            args['setup_hetero'] = j
-            all_solutions += run_experiment(args)
+            for k in [0, 1]:
+                args['setup_hidden'] = i
+                args['setup_hetero'] = j
+                args['setup_scramble'] = j
+                all_solutions += run_experiment(args)
     print("\n".join(all_solutions))
 
     torch.save(all_solutions, 'synthetic_results.pt')

@@ -39,7 +39,8 @@ class ChainEquationModel(object):
 
     def solution(self):
         w = torch.cat((self.wxy.sum(1), torch.zeros(self.dim))).view(-1, 1)
-        return self.scramble @ w
+        # return self.scramble @ w
+        return w
 
     def __call__(self, n, env):
         h = torch.randn(n, self.dim) * env

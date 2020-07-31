@@ -97,13 +97,15 @@ def run_experiment(args):
             method = method_constructor(environments, args)
             msolution = method.solution()
 
-            err_causal, err_noncausal = errors(sem.solution(), msolution)
+            err_causal, err_noncausal = errors(sem.solution(), msolution.view(-1) @ sem.scramble)
 
             solutions.append("{} {} {} {:.5f} {:.5f}".format(setup_str,
                                                              method_name,
                                                              pretty(msolution),
                                                              err_causal,
                                                              err_noncausal))
+
+                                                             W.t S.t S X, W, S.t S X
 
         all_solutions += solutions
 

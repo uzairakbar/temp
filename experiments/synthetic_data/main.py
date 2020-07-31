@@ -79,8 +79,10 @@ def run_experiment(args):
                                      scramble=args["setup_scramble"],
                                      hetero=args["setup_hetero"])
             environments = [sem(args["n_samples"], .2),
+                            sem(args["n_samples"], 1.),
                             sem(args["n_samples"], 2.),
-                            sem(args["n_samples"], 5.)]
+                            sem(args["n_samples"], 5.),
+                            sem(args["n_samples"], 10.)]
         else:
             raise NotImplementedError
 

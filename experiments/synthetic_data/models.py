@@ -187,6 +187,7 @@ class EnsembleERM(object):
         for (x_e, y_e) in environments:
             w_e = LinearRegression(fit_intercept=False).fit(x_e.numpy(), y_e.numpy()).coef_
             w += w_e
+            print(len(y_e))
         w /= len(environments)
         self.w = torch.Tensor(w)
 

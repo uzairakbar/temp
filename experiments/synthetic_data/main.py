@@ -105,8 +105,6 @@ def run_experiment(args):
                                                              err_causal,
                                                              err_noncausal))
 
-                                                             W.t S.t S X, W, S.t S X
-
         all_solutions += solutions
 
     return all_solutions

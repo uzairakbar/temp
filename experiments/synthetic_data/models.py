@@ -231,6 +231,7 @@ class AdaBoostERM(object):
 
             env_weights = np.multiply(env_weights, np.power(beta, 1 - env_errors))
             env_weights /= np.max(env_weights)
+            print(env_weights)
 
             classifiers += [lr_i]
 

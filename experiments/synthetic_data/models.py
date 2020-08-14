@@ -192,3 +192,55 @@ class EnsembleERM(object):
 
     def solution(self):
         return self.w
+
+class AdaBoostERM(object):
+    def __init__(self, environments, args):
+        num_classifiers = 10
+        classifiers = []
+        classifier_weights = np.ones(num_classifiers)/num_classifiers
+
+        env_weights = np.ones(len(environments))/len(environments)
+        env_errors = np.zeros(len(environments))
+
+        x_all = torch.cat([x for (x, y) in environments]).numpy()
+        y_all = torch.cat([y for (x, y) in environments]).numpy()
+        for i in range(num_classifiers):
+            if i == 0:
+                w_average = LinearRegression(fit_intercept=False).fit(x_all, y_all).coef_ * 0.0
+
+                for (x_e, y_e) in environments:
+                    w_e = LinearRegression(fit_intercept=False).fit(x_e.numpy(), y_e.numpy()).coef_
+                    w_average += w_e
+                w_average /= len(environments)
+
+                lr_i = LinearRegression(fit_intercept=False).fit(x_all, y_all)
+                lr_i.coef_ = w_average
+            else:
+                e = np.random.choice(len(environments), p=env_weights)
+                (x_e, y_e) = environments[e]
+                lr_i = LinearRegression(fit_intercept=False).fit(x_e, y_e)
+            
+            for e, (x_e, y_e) in enumerate(environments):
+                y_hat_e = lr_i.predict(x_e)
+                env_errors[e] = np.abs(y_hat_e - y_e)**2
+
+            env_errors /= np.max(env_errors)
+            avg_error = np.mean(env_errors)
+            beta = (1 - avg_error)/avg_error
+            classifier_weights[i] = np.log(beta)/2.0
+
+            env_weights = np.multiply(env_weights, np.power(beta, 1 - env_errors))
+            env_weights /= np.max(env_weights)
+
+            classifiers += [lr_i]
+            
+        w = LinearRegression(fit_intercept=False).fit(x_all, y_all).coef_ * 0.0
+
+        for i in range(num_classifiers):
+            w += classifier_weights[i]*classifiers[i].coef_
+        w_average /= sum(classifier_weights)
+
+        self.w = torch.Tensor(w)
+
+    def solution(self):
+        return self.w

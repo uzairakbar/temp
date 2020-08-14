@@ -57,6 +57,7 @@ def run_experiment(args):
         raise NotImplementedError
 
     all_methods = {
+        "ABERM": AdaBoostERM,
         "EERM": EnsembleERM,
         "ERM": EmpiricalRiskMinimizer,
         "ICP": InvariantCausalPrediction,
@@ -121,7 +122,7 @@ if __name__ == '__main__':
     parser.add_argument('--n_iterations', type=int, default=10000)
     parser.add_argument('--lr', type=float, default=1e-3)
     parser.add_argument('--verbose', type=int, default=0)
-    parser.add_argument('--methods', type=str, default="EERM,ERM,ICP,IRM")
+    parser.add_argument('--methods', type=str, default="ABERM,EERM,ERM,ICP,IRM")
     parser.add_argument('--alpha', type=float, default=0.05)
     parser.add_argument('--setup_sem', type=str, default="chain")
     parser.add_argument('--setup_hidden', type=int, default=0)

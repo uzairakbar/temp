@@ -222,7 +222,7 @@ class AdaBoostERM(object):
             
             for e, (x_e, y_e) in enumerate(environments):
                 y_hat_e = lr_i.predict(x_e.numpy())
-                env_errors[e] = np.abs(y_hat_e - y_e.numpy())**2
+                env_errors[e] = np.mean(np.abs(y_hat_e - y_e.numpy())**2)
 
             env_errors /= np.max(env_errors)
             avg_error = np.mean(env_errors)

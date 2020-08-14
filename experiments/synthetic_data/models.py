@@ -216,7 +216,9 @@ class AdaBoostERM(object):
                 lr_i = LinearRegression(fit_intercept=False).fit(x_all, y_all)
                 lr_i.coef_ = w_average
             else:
-                e = np.random.choice(len(environments), p=env_weights)
+                probs = np.e**env_weights / np.sum(np.e**env_weights)
+                e = np.random.choice(len(environments), p=probs)
+                print("probs:", probs)
                 (x_e, y_e) = environments[e]
                 lr_i = LinearRegression(fit_intercept=False).fit(x_e.numpy(), y_e.numpy())
             

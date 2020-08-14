@@ -218,11 +218,11 @@ class AdaBoostERM(object):
             else:
                 e = np.random.choice(len(environments), p=env_weights)
                 (x_e, y_e) = environments[e]
-                lr_i = LinearRegression(fit_intercept=False).fit(x_e, y_e)
+                lr_i = LinearRegression(fit_intercept=False).fit(x_e.numpy(), y_e.numpy())
             
             for e, (x_e, y_e) in enumerate(environments):
-                y_hat_e = lr_i.predict(x_e)
-                env_errors[e] = np.abs(y_hat_e - y_e)**2
+                y_hat_e = lr_i.predict(x_e.numpy())
+                env_errors[e] = np.abs(y_hat_e - y_e.numpy())**2
 
             env_errors /= np.max(env_errors)
             avg_error = np.mean(env_errors)
@@ -233,7 +233,7 @@ class AdaBoostERM(object):
             env_weights /= np.max(env_weights)
 
             classifiers += [lr_i]
-            
+
         w = LinearRegression(fit_intercept=False).fit(x_all, y_all).coef_ * 0.0
 
         for i in range(num_classifiers):
